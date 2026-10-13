@@ -1,0 +1,11 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "C:\\Users\\A.Gapele\\AppData\\Local\\Microsoft\\WinGet\\Packages\\PHP.PHP.8.4_Microsoft.Winget.Source_8wekyb3d8bbwe\\php.exe",
+            "args": [
+                "C:\\project\\ticketing-app\\artisan",
+                "boost:mcp"
+            ]
+        }
+    }
+}
