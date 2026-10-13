@@ -5,8 +5,62 @@
 @source '../views/**/*.blade.php';
 @source '../js/**/*.js';
 
+@font-face {
+    font-family: 'IRANSans';
+    src: url('/assets/iransans/woff2/IRANSansWeb(FaNum)_UltraLight.woff2') format('woff2'),
+        url('/assets/iransans/woff/IRANSansWeb(FaNum)_UltraLight.woff') format('woff');
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('/assets/iransans/woff2/IRANSansWeb(FaNum)_Light.woff2') format('woff2'),
+        url('/assets/iransans/woff/IRANSansWeb(FaNum)_Light.woff') format('woff');
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('/assets/iransans/woff2/IRANSansWeb(FaNum).woff2') format('woff2'),
+        url('/assets/iransans/woff/IRANSansWeb(FaNum).woff') format('woff');
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('/assets/iransans/woff2/IRANSansWeb(FaNum)_Medium.woff2') format('woff2'),
+        url('/assets/iransans/woff/IRANSansWeb(FaNum)_Medium.woff') format('woff');
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('/assets/iransans/woff2/IRANSansWeb(FaNum)_Bold.woff2') format('woff2'),
+        url('/assets/iransans/woff/IRANSansWeb(FaNum)_Bold.woff') format('woff');
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'IRANSans';
+    src: url('/assets/iransans/woff2/IRANSansWeb(FaNum)_Black.woff2') format('woff2'),
+        url('/assets/iransans/woff/IRANSansWeb(FaNum)_Black.woff') format('woff');
+    font-style: normal;
+    font-weight: 900;
+    font-display: swap;
+}
+
 @theme {
-    --font-sans: Tahoma, Arial, ui-sans-serif, system-ui, sans-serif;
+    --font-sans: 'IRANSans', Tahoma, Arial, ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {

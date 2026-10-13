@@ -21,6 +21,8 @@ class AdminUserSeeder extends Seeder
             [
                 'name' => 'مدیر سیستم',
                 'email_verified_at' => now(),
+                'is_active' => true,
+                'is_admin' => true,
                 'password' => Hash::make('123'),
             ],
         );

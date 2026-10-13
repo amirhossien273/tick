@@ -1,65 +1,40 @@
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#0f172a">
-    <title>داشبورد | سامانه تیکتینگ</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
-</head>
-<body class="min-h-screen bg-slate-100 font-sans text-slate-900 antialiased">
-    <div class="min-h-screen lg:grid lg:grid-cols-[280px_1fr]">
-        <aside class="hidden bg-slate-950 p-6 text-white lg:flex lg:flex-col">
-            <div class="flex items-center gap-3 border-b border-white/10 pb-6">
-                <div class="grid size-11 place-items-center rounded-2xl bg-teal-500/15 text-teal-300">
-                    <svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7.5 8.5h9M7.5 12h6M9 19l-4 2v-4.5A7.5 7.5 0 0 1 4 13V8.5A4.5 4.5 0 0 1 8.5 4h7A4.5 4.5 0 0 1 20 8.5V13a4.5 4.5 0 0 1-4.5 4.5H12L9 19Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </div>
-                <div><p class="font-bold">سامانه تیکتینگ</p><p class="mt-0.5 text-xs text-slate-500">پنل مدیریت</p></div>
+<x-app-layout title="داشبورد" description="نمای کلی فضای کاری و دسترسی سریع به بخش‌های سامانه">
+    <section class="relative overflow-hidden rounded-3xl bg-slate-950 p-7 text-white shadow-xl shadow-slate-950/10 sm:p-10">
+        <div class="pointer-events-none absolute -left-24 -top-32 size-96 rounded-full bg-teal-500/20 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-40 right-1/3 size-96 rounded-full bg-cyan-600/10 blur-3xl"></div>
+        <div class="relative flex flex-col gap-8 lg:flex-row lg:items-center lg:justify-between">
+            <div class="max-w-2xl">
+                <span class="inline-flex items-center gap-2 rounded-full border border-teal-400/20 bg-teal-400/10 px-3 py-1.5 text-xs font-bold text-teal-200">
+                    <span class="size-2 rounded-full bg-teal-400"></span>
+                    نشست فعال و ایمن
+                </span>
+                <h2 class="mt-5 text-2xl font-black leading-relaxed sm:text-3xl">سلام {{ auth()->user()->name }}، خوش آمدید.</h2>
+                <p class="mt-3 max-w-xl text-sm leading-7 text-slate-400">از این داشبورد می‌توانید بخش‌های مختلف سامانه را مدیریت و وضعیت عملیات را پیگیری کنید.</p>
             </div>
-
-            <nav class="mt-8" aria-label="منوی اصلی">
-                <a href="{{ route('dashboard') }}" class="flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold text-white">
-                    <svg class="size-5 text-teal-300" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-12h6V4h-6v4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-                    داشبورد
+            @can('viewAny', App\Models\User::class)
+                <a href="{{ route('users.index') }}" class="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-black text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-50">
+                    مدیریت کاربران
+                    <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
-            </nav>
+            @endcan
+        </div>
+    </section>
 
-            <div class="mt-auto rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-                <p class="truncate text-sm font-bold">{{ auth()->user()->name }}</p>
-                <p class="mt-1 truncate text-xs text-slate-500" dir="ltr">{{ auth()->user()->email }}</p>
-                <form class="mt-4" method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="flex w-full items-center justify-center gap-2 rounded-xl border border-white/10 px-3 py-2.5 text-xs font-bold text-slate-300 transition hover:border-rose-400/30 hover:bg-rose-400/10 hover:text-rose-300">خروج از حساب</button>
-                </form>
-            </div>
-        </aside>
-
-        <main class="min-w-0">
-            <header class="flex h-20 items-center justify-between border-b border-slate-200 bg-white px-5 sm:px-8">
-                <div><h1 class="text-lg font-black text-slate-950">داشبورد</h1><p class="mt-1 text-xs text-slate-500">نمای کلی فضای کاری</p></div>
-                <div class="flex items-center gap-3">
-                    <div class="hidden text-left sm:block"><p class="text-sm font-bold text-slate-800">{{ auth()->user()->name }}</p><p class="mt-0.5 text-xs text-slate-400" dir="ltr">{{ auth()->user()->email }}</p></div>
-                    <div class="grid size-11 place-items-center rounded-full bg-teal-50 font-black text-teal-700 ring-4 ring-white shadow-sm">{{ mb_substr(auth()->user()->name, 0, 1) }}</div>
-                    <form method="POST" action="{{ route('logout') }}" class="lg:hidden">
-                        @csrf
-                        <button type="submit" aria-label="خروج از حساب" class="grid size-10 place-items-center rounded-xl border border-slate-200 text-slate-500 transition hover:border-rose-200 hover:bg-rose-50 hover:text-rose-600">
-                            <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h4m6-4 4-3-4-3m4 3H9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                        </button>
-                    </form>
-                </div>
-            </header>
-
-            <section class="grid min-h-[calc(100vh-5rem)] place-items-center p-6 sm:p-10">
-                <div class="w-full max-w-xl rounded-3xl border border-slate-200 bg-white p-8 text-center shadow-sm sm:p-12">
-                    <div class="mx-auto grid size-20 place-items-center rounded-3xl bg-teal-50 text-teal-600 ring-8 ring-teal-50/50">
-                        <svg class="size-9" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-12h6V4h-6v4Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
-                    </div>
-                    <h2 class="mt-7 text-2xl font-black text-slate-950">داشبورد آماده است</h2>
-                    <p class="mx-auto mt-3 max-w-md leading-7 text-slate-500">فضای کاری شما با موفقیت ایجاد شده است. ابزارها و گزارش‌های سامانه در این بخش قرار خواهند گرفت.</p>
-                    <div class="mt-8 inline-flex items-center gap-2 rounded-full bg-emerald-50 px-4 py-2 text-xs font-bold text-emerald-700"><span class="size-2 rounded-full bg-emerald-500"></span>ورود موفق و نشست فعال</div>
-                </div>
-            </section>
-        </main>
-    </div>
-</body>
-</html>
+    <section class="mt-6 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <span class="grid size-12 place-items-center rounded-2xl bg-teal-50 text-teal-700"><svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 13h6V4H4v9Zm0 7h6v-4H4v4Zm10 0h6v-9h-6v9Zm0-12h6V4h-6v4Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+            <h3 class="mt-5 font-black text-slate-900">فضای کاری یکپارچه</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-500">تمام ابزارهای پشتیبانی در یک محیط منظم و سریع در دسترس شماست.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <span class="grid size-12 place-items-center rounded-2xl bg-blue-50 text-blue-700"><svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3 4.5 6v5.5c0 4.4 3.2 8.1 7.5 9.5 4.3-1.4 7.5-5.1 7.5-9.5V6L12 3Z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg></span>
+            <h3 class="mt-5 font-black text-slate-900">کنترل دسترسی امن</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-500">نشست‌ها، وضعیت کاربران و دسترسی‌های مدیریتی به‌صورت امن کنترل می‌شوند.</p>
+        </div>
+        <div class="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:col-span-2 xl:col-span-1">
+            <span class="grid size-12 place-items-center rounded-2xl bg-violet-50 text-violet-700"><svg class="size-6" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 19V9m7 10V5m7 14v-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+            <h3 class="mt-5 font-black text-slate-900">گزارش‌پذیری شفاف</h3>
+            <p class="mt-2 text-sm leading-7 text-slate-500">تغییرات مهم ثبت می‌شوند تا تاریخچه فعالیت‌ها همیشه قابل پیگیری باشد.</p>
+        </div>
+    </section>
+</x-app-layout>

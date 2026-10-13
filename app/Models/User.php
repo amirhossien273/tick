@@ -14,7 +14,7 @@ use Illuminate\Notifications\Notifiable;
 use Spatie\Activitylog\Models\Concerns\HasActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
-#[Fillable(['name', 'email', 'password'])]
+#[Fillable(['name', 'email', 'password', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
@@ -31,11 +31,10 @@ class User extends Authenticatable
     {
         return LogOptions::defaults()
             ->useLogName('users')
-            ->logOnly(['name', 'email', 'email_verified_at'])
+            ->logOnly(['name', 'email', 'email_verified_at', 'is_active', 'is_admin'])
             ->logOnlyDirty()
             ->dontLogEmptyChanges();
     }
-
 
     /**
      * Get the attributes that should be cast.
@@ -46,6 +45,9 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'is_active' => 'boolean',
+            'is_admin' => 'boolean',
+            'last_login_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
