@@ -55,6 +55,17 @@
                         مدیریت کاربران
                     </a>
                 @endcan
+
+                @can('viewAny', App\Models\System::class)
+                    <a href="{{ route('systems.index') }}" @class([
+                        'group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition',
+                        'bg-teal-500/15 text-teal-200 ring-1 ring-inset ring-teal-400/20' => request()->routeIs('systems.*'),
+                        'text-slate-400 hover:bg-white/[0.06] hover:text-white' => ! request()->routeIs('systems.*'),
+                    ])>
+                        <svg class="size-5 transition group-hover:text-teal-300" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 4h14a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Zm0 9h14a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2Zm2-5h.01M7 17h.01" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+                        مدیریت سامانه‌ها
+                    </a>
+                @endcan
             </nav>
 
             <div class="relative mt-auto rounded-2xl border border-white/10 bg-white/[0.04] p-4">

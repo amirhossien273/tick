@@ -60,3 +60,39 @@ document.querySelectorAll('[data-confirm]').forEach((form) => {
         }
     });
 });
+
+document.querySelectorAll('[data-secret-toggle]').forEach((toggle) => {
+    toggle.addEventListener('click', () => {
+        const input = document.querySelector('[data-secret-input]');
+
+        if (!(input instanceof HTMLInputElement)) {
+            return;
+        }
+
+        const shouldReveal = input.type === 'password';
+
+        input.type = shouldReveal ? 'text' : 'password';
+        toggle.setAttribute('aria-pressed', String(shouldReveal));
+        toggle.setAttribute('aria-label', shouldReveal ? 'پنهان کردن API Key' : 'نمایش API Key');
+    });
+});
+
+document.querySelectorAll('[data-copy-secret]').forEach((copyButton) => {
+    copyButton.addEventListener('click', async () => {
+        const input = document.querySelector('[data-secret-input]');
+        const label = copyButton.querySelector('[data-copy-label]');
+
+        if (!(input instanceof HTMLInputElement) || ! navigator.clipboard) {
+            return;
+        }
+
+        await navigator.clipboard.writeText(input.value);
+
+        if (label) {
+            label.textContent = 'کپی شد';
+            window.setTimeout(() => {
+                label.textContent = 'کپی کلید';
+            }, 1800);
+        }
+    });
+});

@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\SystemApiKeyController;
+use App\Http\Controllers\SystemController;
+use App\Http\Controllers\SystemStatusController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserStatusController;
@@ -18,6 +21,12 @@ Route::middleware('guest')->group(function (): void {
 
 Route::middleware(['auth', EnsureUserIsActive::class])->group(function (): void {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
+
+    Route::post('/systems/{system}/api-key', SystemApiKeyController::class)
+        ->name('systems.api-key.store');
+    Route::patch('/systems/{system}/status', SystemStatusController::class)
+        ->name('systems.status.update');
+    Route::resource('systems', SystemController::class)->except('destroy');
 
     Route::get('/users/{user}/password', [UserPasswordController::class, 'edit'])
         ->name('users.password.edit');
