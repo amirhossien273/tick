@@ -21,6 +21,8 @@ class AdminUserSeederTest extends TestCase
 
         $this->assertDatabaseCount('users', 1);
         $this->assertSame('مدیر سیستم', $admin->name);
+        $this->assertTrue($admin->is_admin);
+        $this->assertTrue($admin->is_active);
         $this->assertTrue(Hash::check('123', $admin->password));
         $this->assertNotSame('123', $admin->password);
     }

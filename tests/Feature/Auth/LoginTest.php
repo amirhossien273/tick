@@ -50,6 +50,24 @@ class LoginTest extends TestCase
 
         $response->assertRedirectToRoute('dashboard');
         $this->assertAuthenticatedAs($user);
+        $this->assertNotNull($user->fresh()->last_login_at);
+    }
+
+    public function test_inactive_user_cannot_authenticate(): void
+    {
+        User::factory()->inactive()->create([
+            'email' => 'inactive@example.com',
+            'password' => 'password',
+        ]);
+
+        $this->post(route('login.store'), [
+            'email' => 'inactive@example.com',
+            'password' => 'password',
+        ])->assertSessionHasErrors([
+            'email' => 'ایمیل یا رمز عبور واردشده صحیح نیست.',
+        ]);
+
+        $this->assertGuest();
     }
 
     public function test_invalid_credentials_return_visible_error_and_keep_user_logged_out(): void
