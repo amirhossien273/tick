@@ -1,4 +1,12 @@
 {
+<<<<<<< HEAD
+=======
+    "agents": [
+        "claude_code",
+        "codex",
+        "junie"
+    ],
+>>>>>>> feature/authentication
     "cloud": true,
     "guidelines": true,
     "mcp": true,

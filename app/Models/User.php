@@ -36,6 +36,7 @@ class User extends Authenticatable
             ->dontLogEmptyChanges();
     }
 
+
     /**
      * Get the attributes that should be cast.
      *

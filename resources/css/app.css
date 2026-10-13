@@ -2,8 +2,25 @@
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
+@source '../views/**/*.blade.php';
+@source '../js/**/*.js';
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-sans: Tahoma, Arial, ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+    html {
+        min-width: 320px;
+    }
+
+    button,
+    input {
+        font: inherit;
+    }
+}
+
+::selection {
+    background: rgb(153 246 228);
+    color: rgb(15 23 42);
 }
