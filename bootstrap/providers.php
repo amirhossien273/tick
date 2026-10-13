@@ -1,7 +1,10 @@
 <?php
 
-use App\Providers\AppServiceProvider;
-
 return [
-    AppServiceProvider::class,
+    App\Providers\AppServiceProvider::class,
+    ...(
+    env('APP_ENV', 'production') === 'local'
+        ? [App\Providers\TelescopeServiceProvider::class]
+        : []
+    ),
 ];
