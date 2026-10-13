@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\System;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
@@ -27,6 +28,13 @@ class AppServiceProvider extends ServiceProvider
             $email = Str::lower(trim((string) $request->input('email')));
 
             return Limit::perMinute(5)->by($email.'|'.$request->ip());
+        });
+
+        RateLimiter::for('source-system-api', function (Request $request): Limit {
+            $sourceSystem = $request->attributes->get('sourceSystem');
+            $key = $sourceSystem instanceof System ? $sourceSystem->getKey() : $request->ip();
+
+            return Limit::perMinute(60)->by($key);
         });
     }
 }

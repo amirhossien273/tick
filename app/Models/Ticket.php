@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Services\TicketService;
 use Database\Factories\TicketFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
@@ -9,7 +10,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Support\Facades\DB;
 use Spatie\Activitylog\Models\Concerns\HasActivity;
 use Spatie\Activitylog\Support\LogOptions;
 
@@ -116,38 +116,8 @@ class Ticket extends Model
     protected static function booted(): void
     {
         static::creating(function (Ticket $ticket): void {
-            $issuedAt = now();
-            $sequence = self::nextSequenceForYear((int) $issuedAt->format('Y'));
-
-            $ticket->ticket_number = sprintf(
-                'TKT-%s-%04d',
-                $issuedAt->format('Ydm'),
-                $sequence,
-            );
+            $ticket->ticket_number = TicketService::generateUniqueNumber();
         });
-    }
-
-    private static function nextSequenceForYear(int $year): int
-    {
-        return DB::transaction(function () use ($year): int {
-            DB::table('ticket_number_sequences')->insertOrIgnore([
-                'year' => $year,
-                'last_number' => 0,
-            ]);
-
-            $currentSequence = DB::table('ticket_number_sequences')
-                ->where('year', $year)
-                ->lockForUpdate()
-                ->value('last_number');
-
-            $nextSequence = (int) $currentSequence + 1;
-
-            DB::table('ticket_number_sequences')
-                ->where('year', $year)
-                ->update(['last_number' => $nextSequence]);
-
-            return $nextSequence;
-        }, 5);
     }
 
     /**
