@@ -14,6 +14,40 @@ class SystemTest extends TestCase
 {
     use LazilyRefreshDatabase;
 
+    public function test_created_systems_receive_sequential_codes_in_requested_format(): void
+    {
+        $this->travelTo('2025-10-13 10:00:00');
+
+        $firstSystem = System::factory()->create();
+        $secondSystem = System::factory()->create();
+
+        $this->assertSame('SYS-20251310-0001', $firstSystem->code);
+        $this->assertSame('SYS-20251310-0002', $secondSystem->code);
+    }
+
+    public function test_system_code_sequence_restarts_when_year_changes(): void
+    {
+        $this->travelTo('2025-12-31 23:59:00');
+        $firstSystem = System::factory()->create();
+        $secondSystem = System::factory()->create();
+
+        $this->travelTo('2026-01-01 00:01:00');
+        $newYearSystem = System::factory()->create();
+
+        $this->assertSame('SYS-20253112-0001', $firstSystem->code);
+        $this->assertSame('SYS-20253112-0002', $secondSystem->code);
+        $this->assertSame('SYS-20260101-0001', $newYearSystem->code);
+    }
+
+    public function test_supplied_system_code_is_replaced_by_generated_code(): void
+    {
+        $this->travelTo('2025-10-13 10:00:00');
+
+        $system = System::factory()->create(['code' => 'CUSTOM-CODE']);
+
+        $this->assertSame('SYS-20251310-0001', $system->code);
+    }
+
     public function test_created_system_has_uuid_creator_and_activity(): void
     {
         $creator = User::factory()->create();
@@ -26,6 +60,7 @@ class SystemTest extends TestCase
         $this->assertSame('systems', $activity->log_name);
         $this->assertTrue($activity->subject->is($system));
         $this->assertArrayHasKey('name', $activity->attribute_changes->get('attributes'));
+        $this->assertArrayHasKey('code', $activity->attribute_changes->get('attributes'));
         $this->assertArrayNotHasKey('api_key', $activity->attribute_changes->get('attributes'));
     }
 

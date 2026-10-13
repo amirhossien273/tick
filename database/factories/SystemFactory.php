@@ -12,6 +12,13 @@ use Illuminate\Support\Str;
  */
 class SystemFactory extends Factory
 {
+    public function configure(): static
+    {
+        return $this->afterMaking(function (System $system): void {
+            $system->api_key_hash = System::hashApiKey($system->api_key);
+        });
+    }
+
     /**
      * Define the model's default state.
      *
@@ -19,14 +26,23 @@ class SystemFactory extends Factory
      */
     public function definition(): array
     {
+        $apiKey = 'tkt_'.Str::random(56);
+
         return [
             'name' => fake()->company(),
-            'code' => fake()->unique()->bothify('SYS-#####-???'),
             'description' => fake()->optional()->sentence(),
-            'api_key' => Str::random(64),
+            'api_key' => $apiKey,
+            'api_key_hash' => System::hashApiKey($apiKey),
             'is_active' => true,
             'last_used_at' => null,
             'created_by' => User::factory(),
         ];
+    }
+
+    public function inactive(): static
+    {
+        return $this->state(fn (array $attributes): array => [
+            'is_active' => false,
+        ]);
     }
 }

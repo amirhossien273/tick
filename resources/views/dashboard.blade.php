@@ -11,12 +11,20 @@
                 <h2 class="mt-5 text-2xl font-black leading-relaxed sm:text-3xl">سلام {{ auth()->user()->name }}، خوش آمدید.</h2>
                 <p class="mt-3 max-w-xl text-sm leading-7 text-slate-400">از این داشبورد می‌توانید بخش‌های مختلف سامانه را مدیریت و وضعیت عملیات را پیگیری کنید.</p>
             </div>
-            @can('viewAny', App\Models\User::class)
-                <a href="{{ route('users.index') }}" class="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-black text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-50">
-                    مدیریت کاربران
-                    <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                </a>
-            @endcan
+            <div class="flex flex-wrap gap-3">
+                @can('viewAny', App\Models\System::class)
+                    <a href="{{ route('systems.index') }}" class="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-2xl bg-teal-400 px-5 text-sm font-black text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-300">
+                        مدیریت سامانه‌ها
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                @endcan
+                @can('viewAny', App\Models\User::class)
+                    <a href="{{ route('users.index') }}" class="inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-2xl bg-white px-5 text-sm font-black text-slate-950 shadow-lg transition hover:-translate-y-0.5 hover:bg-teal-50">
+                        مدیریت کاربران
+                        <svg class="size-5" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m15 18-6-6 6-6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                @endcan
+            </div>
         </div>
     </section>
 
