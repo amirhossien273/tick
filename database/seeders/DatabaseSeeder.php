@@ -15,6 +15,11 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
+        $this->call(TicketStatusSeeder::class);
+        $this->call(TicketPrioritySeeder::class);
+        $this->call(TicketCategorySeeder::class);
+        $this->call(TicketTagSeeder::class);
+
         // User::factory(10)->create();
 
         User::factory()->create([
