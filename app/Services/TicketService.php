@@ -131,7 +131,6 @@ class TicketService
             $ticket = Ticket::query()->create([
                 'source_system_id' => $sourceSystem->getKey(),
                 'external_user_id' => $attributes['external_user_id'],
-                'external_ticket_id' => $attributes['external_ticket_id'] ?? null,
                 'subject' => $attributes['subject'],
                 'description' => $attributes['description'] ?? null,
                 'status_id' => $status->getKey(),

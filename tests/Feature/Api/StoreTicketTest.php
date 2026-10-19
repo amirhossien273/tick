@@ -127,7 +127,7 @@ class StoreTicketTest extends TestCase
                     'id' => $ticket->getKey(),
                     'ticket_number' => 'TKT-20261310-0001',
                     'external_user_id' => 'customer-245',
-                    'external_ticket_id' => 'EXT-900',
+                    'external_ticket_id' => null,
                     'subject' => 'خطا در پرداخت سفارش',
                     'description' => 'پرداخت موفق است اما سفارش ثبت نشده.',
                     'status' => ['code' => 'new', 'name' => 'جدید'],
@@ -148,6 +148,7 @@ class StoreTicketTest extends TestCase
         $this->assertTrue($ticket->priority->is($priority));
         $this->assertTrue($ticket->category->is($category));
         $this->assertNull($ticket->assigned_to);
+        $this->assertNull($ticket->external_ticket_id);
         $this->assertSame('TKT-20261310-0001', $ticket->ticket_number);
         $this->assertSame($sourceSystem->getKey(), $activity->attribute_changes->get('attributes')['source_system_id']);
         $this->assertNotNull($sourceSystem->fresh()->last_used_at);

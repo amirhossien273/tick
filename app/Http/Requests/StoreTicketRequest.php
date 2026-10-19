@@ -19,7 +19,6 @@ class StoreTicketRequest extends SourceSystemRequest
     {
         return [
             'external_user_id' => ['required', 'string', 'max:100'],
-            'external_ticket_id' => ['nullable', 'string', 'max:100'],
             'subject' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string', 'max:10000'],
             'priority_code' => [
@@ -45,7 +44,6 @@ class StoreTicketRequest extends SourceSystemRequest
         return [
             'external_user_id.required' => 'شناسه کاربر در سامانه مبدأ الزامی است.',
             'external_user_id.max' => 'شناسه کاربر نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد.',
-            'external_ticket_id.max' => 'شناسه تیکت مبدأ نمی‌تواند بیشتر از ۱۰۰ کاراکتر باشد.',
             'subject.required' => 'عنوان تیکت الزامی است.',
             'subject.max' => 'عنوان تیکت نمی‌تواند بیشتر از ۲۵۵ کاراکتر باشد.',
             'description.max' => 'شرح تیکت نمی‌تواند بیشتر از ۱۰۰۰۰ کاراکتر باشد.',
@@ -56,14 +54,12 @@ class StoreTicketRequest extends SourceSystemRequest
 
     protected function prepareForValidation(): void
     {
-        $externalTicketId = $this->string('external_ticket_id')->trim()->toString();
         $description = $this->string('description')->trim()->toString();
         $priorityCode = $this->string('priority_code')->trim()->lower()->toString();
         $categoryCode = $this->string('category_code')->trim()->lower()->toString();
 
         $this->merge([
             'external_user_id' => $this->string('external_user_id')->trim()->toString(),
-            'external_ticket_id' => $externalTicketId !== '' ? $externalTicketId : null,
             'subject' => $this->string('subject')->trim()->toString(),
             'description' => $description !== '' ? $description : null,
             'priority_code' => $priorityCode !== '' ? $priorityCode : null,

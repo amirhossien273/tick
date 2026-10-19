@@ -45,6 +45,17 @@
                     داشبورد
                 </a>
 
+                @can('viewAny', App\Models\Ticket::class)
+                    <a href="{{ route('tickets.index') }}" @class([
+                        'group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition',
+                        'bg-teal-500/15 text-teal-200 ring-1 ring-inset ring-teal-400/20' => request()->routeIs('tickets.*'),
+                        'text-slate-400 hover:bg-white/[0.06] hover:text-white' => ! request()->routeIs('tickets.*'),
+                    ])>
+                        <svg class="size-5 transition group-hover:text-teal-300" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 5h14a2 2 0 0 1 2 2v3a2 2 0 0 0 0 4v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-3a2 2 0 0 0 0-4V7a2 2 0 0 1 2-2Zm7 3v8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        کارتابل تیکت‌ها
+                    </a>
+                @endcan
+
                 @can('viewAny', App\Models\User::class)
                     <a href="{{ route('users.index') }}" @class([
                         'group flex items-center gap-3 rounded-2xl px-4 py-3 text-sm font-bold transition',

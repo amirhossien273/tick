@@ -35,7 +35,6 @@ class TicketController extends Controller
             $request->sourceSystem(),
             $request->safe()->only([
                 'external_user_id',
-                'external_ticket_id',
                 'subject',
                 'description',
                 'priority_code',
